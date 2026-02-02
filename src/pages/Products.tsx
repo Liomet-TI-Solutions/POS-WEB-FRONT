@@ -47,15 +47,15 @@ import type { Product } from '@/types';
 
 // Mock products data
 const mockProducts: Product[] = [
-  { id: '1', name: 'Coca Cola 600ml', price: 18.00, stock: 50, isActive: true, category: 'Bebidas', barcode: '7501055300129', sku: 'BEB-001' },
-  { id: '2', name: 'Pepsi 600ml', price: 17.00, stock: 45, isActive: true, category: 'Bebidas', barcode: '7501055300130', sku: 'BEB-002' },
-  { id: '3', name: 'Sabritas Original', price: 15.50, stock: 30, isActive: true, category: 'Botanas', barcode: '7501055300131', sku: 'BOT-001' },
-  { id: '4', name: 'Doritos Nacho', price: 18.00, stock: 25, isActive: true, category: 'Botanas', barcode: '7501055300132', sku: 'BOT-002' },
-  { id: '5', name: 'Pan Bimbo Grande', price: 52.00, stock: 20, isActive: true, category: 'Panadería', barcode: '7501055300133', sku: 'PAN-001' },
-  { id: '6', name: 'Leche Lala 1L', price: 28.00, stock: 35, isActive: true, category: 'Lácteos', barcode: '7501055300134', sku: 'LAC-001' },
-  { id: '7', name: 'Huevo 12 pzas', price: 45.00, stock: 40, isActive: true, category: 'Básicos', barcode: '7501055300135', sku: 'BAS-001' },
-  { id: '8', name: 'Agua Bonafont 1L', price: 14.00, stock: 60, isActive: true, category: 'Bebidas', barcode: '7501055300136', sku: 'BEB-003' },
-  { id: '9', name: 'Producto inactivo', price: 10.00, stock: 5, isActive: false, category: 'Otros', barcode: '0000000000000', sku: 'OTR-001' },
+  { id: '1', name: 'Coca Cola 600ml', price: 18.00, stock: 50, isActive: true, category: 'Bebidas', barcode: '7501055300129', sku: 'BEB-001', image: "public/products/coca-cola.jpeg" },
+  { id: '2', name: 'Pepsi 600ml', price: 17.00, stock: 45, isActive: true, category: 'Bebidas', barcode: '7501055300130', sku: 'BEB-002', image: "public/products/pepsi.jpg" },
+  { id: '3', name: 'Sabritas Original', price: 15.50, stock: 30, isActive: true, category: 'Botanas', barcode: '7501055300131', sku: 'BOT-001', image: "public/products/sabritas.jpg" },
+  { id: '4', name: 'Doritos Nacho', price: 18.00, stock: 25, isActive: true, category: 'Botanas', barcode: '7501055300132', sku: 'BOT-002', image: "public/products/doritos.jpg" },
+  { id: '5', name: 'Pan Bimbo Grande', price: 52.00, stock: 20, isActive: true, category: 'Panadería', barcode: '7501055300133', sku: 'PAN-001', image: "public/products/pan-bimbo.jpg" },
+  { id: '6', name: 'Leche Lala 1L', price: 28.00, stock: 35, isActive: true, category: 'Lácteos', barcode: '7501055300134', sku: 'LAC-001', image: "public/products/leche-lala.jpg" },
+  { id: '7', name: 'Huevo 12 pzas', price: 45.00, stock: 40, isActive: true, category: 'Básicos', barcode: '7501055300135', sku: 'BAS-001', image: "public/products/huevo.jpg" },
+  { id: '8', name: 'Agua Bonafont 1L', price: 14.00, stock: 60, isActive: true, category: 'Bebidas', barcode: '7501055300136', sku: 'BEB-003', image: "public/products/agua.jpg" },
+  { id: '9', name: 'Producto inactivo', price: 10.00, stock: 5, isActive: false, category: 'Otros', barcode: '0000000000000', sku: 'OTR-001', image: "" },
 ];
 
 const categories = ['Todos', 'Bebidas', 'Botanas', 'Panadería', 'Lácteos', 'Básicos', 'Galletas', 'Enlatados', 'Limpieza', 'Otros'];
@@ -66,6 +66,8 @@ export default function Products() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -109,6 +111,39 @@ export default function Products() {
               <div className="grid gap-2">
                 <Label htmlFor="name">Nombre del producto</Label>
                 <Input id="name" placeholder="Ej. Coca Cola 600ml" />
+              </div>
+              <div className="grid gap-2">
+                <Label>Imagen del producto</Label>
+
+                <div className="flex items-center gap-4">
+                  <div className="w-20 h-20 rounded-lg border bg-muted flex items-center justify-center overflow-hidden">
+                    {imagePreview ? (
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Package className="w-6 h-6 text-muted-foreground" />
+                    )}
+                  </div>
+
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+
+                      setImageFile(file);
+                      setImagePreview(URL.createObjectURL(file));
+                    }}
+                  />
+                </div>
+
+                <p className="text-xs text-muted-foreground">
+                  JPG, PNG o WebP. Máx. recomendado 1MB
+                </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
@@ -167,8 +202,8 @@ export default function Products() {
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Package className="w-5 h-5 text-primary" />
+              <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
+                <Package className="w-5 h-5 text-muted-foreground" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{stats.total}</p>
@@ -270,8 +305,16 @@ export default function Products() {
                 <TableRow key={product.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                        <Package className="w-5 h-5 text-muted-foreground" />
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Package className="w-5 h-5 text-muted-foreground" />
+                        )}
                       </div>
                       <div>
                         <p className="font-medium">{product.name}</p>
@@ -297,8 +340,8 @@ export default function Products() {
                         product.stock === 0
                           ? 'inactive'
                           : product.stock < 10
-                          ? 'warning'
-                          : 'active'
+                            ? 'warning'
+                            : 'active'
                       }
                     >
                       {product.stock}

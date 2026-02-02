@@ -36,22 +36,21 @@ import { cn } from '@/lib/utils';
 
 // Mock products data
 const mockProducts: Product[] = [
-  { id: '1', name: 'Coca Cola 600ml', price: 18.00, stock: 50, isActive: true, category: 'Bebidas', barcode: '7501055300129' },
-  { id: '2', name: 'Pepsi 600ml', price: 17.00, stock: 45, isActive: true, category: 'Bebidas', barcode: '7501055300130' },
-  { id: '3', name: 'Sabritas Original', price: 15.50, stock: 30, isActive: true, category: 'Botanas', barcode: '7501055300131' },
-  { id: '4', name: 'Doritos Nacho', price: 18.00, stock: 25, isActive: true, category: 'Botanas', barcode: '7501055300132' },
-  { id: '5', name: 'Pan Bimbo Grande', price: 52.00, stock: 20, isActive: true, category: 'Panadería', barcode: '7501055300133' },
-  { id: '6', name: 'Leche Lala 1L', price: 28.00, stock: 35, isActive: true, category: 'Lácteos', barcode: '7501055300134' },
-  { id: '7', name: 'Huevo 12 pzas', price: 45.00, stock: 40, isActive: true, category: 'Básicos', barcode: '7501055300135' },
-  { id: '8', name: 'Agua Bonafont 1L', price: 14.00, stock: 60, isActive: true, category: 'Bebidas', barcode: '7501055300136' },
-  { id: '9', name: 'Galletas Marías', price: 22.00, stock: 28, isActive: true, category: 'Galletas', barcode: '7501055300137' },
-  { id: '10', name: 'Atún en agua', price: 24.00, stock: 35, isActive: true, category: 'Enlatados', barcode: '7501055300138' },
-  { id: '11', name: 'Frijoles de lata', price: 18.50, stock: 40, isActive: true, category: 'Enlatados', barcode: '7501055300139' },
-  { id: '12', name: 'Arroz 1kg', price: 32.00, stock: 25, isActive: true, category: 'Básicos', barcode: '7501055300140' },
-  { id: '13', name: 'Aceite 1L', price: 48.00, stock: 20, isActive: true, category: 'Básicos', barcode: '7501055300141' },
-  { id: '14', name: 'Jabón Zote', price: 28.00, stock: 30, isActive: true, category: 'Limpieza', barcode: '7501055300142' },
-  { id: '15', name: 'Detergente Roma', price: 35.00, stock: 22, isActive: true, category: 'Limpieza', barcode: '7501055300143' },
-  { id: '16', name: 'Producto sin stock', price: 10.00, stock: 0, isActive: true, category: 'Otros', barcode: '0000000000000' },
+  { id: '1', name: 'Coca Cola 600ml', price: 18.00, stock: 50, isActive: true, category: 'Bebidas', barcode: '7501055300129', image: "public/products/coca-cola.jpeg" },
+  { id: '2', name: 'Pepsi 600ml', price: 17.00, stock: 45, isActive: true, category: 'Bebidas', barcode: '7501055300130', image: "public/products/pepsi.jpg" },
+  { id: '3', name: 'Sabritas Original', price: 15.50, stock: 30, isActive: true, category: 'Botanas', barcode: '7501055300131', image: "public/products/sabritas.jpg" },
+  { id: '4', name: 'Doritos Nacho', price: 18.00, stock: 25, isActive: true, category: 'Botanas', barcode: '7501055300132', image: "public/products/doritos.jpg" },
+  { id: '5', name: 'Pan Bimbo Grande', price: 52.00, stock: 20, isActive: true, category: 'Panadería', barcode: '7501055300133', image: "public/products/pan-bimbo.jpg" },
+  { id: '6', name: 'Leche Lala 1L', price: 28.00, stock: 35, isActive: true, category: 'Lácteos', barcode: '7501055300134', image: "public/products/leche-lala.jpg" },
+  { id: '7', name: 'Huevo 12 pzas', price: 45.00, stock: 40, isActive: true, category: 'Básicos', barcode: '7501055300135', image: "public/products/huevo.jpg" },
+  { id: '8', name: 'Agua Bonafont 1L', price: 14.00, stock: 60, isActive: true, category: 'Bebidas', barcode: '7501055300136', image: "public/products/agua.jpg" },
+  { id: '10', name: 'Atún en agua', price: 24.00, stock: 35, isActive: true, category: 'Enlatados', barcode: '7501055300138', image: "public/products/atun.jpg" },
+  { id: '11', name: 'Frijoles de lata', price: 18.50, stock: 40, isActive: true, category: 'Enlatados', barcode: '7501055300139', image: "public/products/frijoles.jpg" },
+  { id: '12', name: 'Arroz 1kg', price: 32.00, stock: 25, isActive: true, category: 'Básicos', barcode: '7501055300140', image: "public/products/arroz.jpg" },
+  { id: '13', name: 'Aceite 1L', price: 48.00, stock: 20, isActive: true, category: 'Básicos', barcode: '7501055300141', image: "public/products/aceite.jpg" },
+  { id: '14', name: 'Jabón Zote', price: 28.00, stock: 30, isActive: true, category: 'Limpieza', barcode: '7501055300142', image: "public/products/jabon.jpg" },
+  { id: '15', name: 'Detergente Roma', price: 35.00, stock: 22, isActive: true, category: 'Limpieza', barcode: '7501055300143', image: "public/products/detergente.jpg" },
+  { id: '16', name: 'Producto sin stock', price: 10.00, stock: 0, isActive: true, category: 'Otros', barcode: '0000000000000', image: "" },
 ];
 
 const categories = ['Todos', 'Bebidas', 'Botanas', 'Panadería', 'Lácteos', 'Básicos', 'Galletas', 'Enlatados', 'Limpieza'];
@@ -265,6 +264,17 @@ export default function POS() {
                   )}
 
                   <div className="pt-4">
+                    <div className="w-full h-24 rounded-md bg-muted mb-2 overflow-hidden flex items-center justify-center">
+                      {product.image ? (
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Package className="w-8 h-8 text-muted-foreground" />
+                      )}
+                    </div>
                     <p className="font-medium text-sm truncate mb-1">{product.name}</p>
                     <p className="text-xs text-muted-foreground mb-2">{product.category}</p>
                     <p className="text-lg font-bold text-primary">${product.price.toFixed(2)}</p>
