@@ -43,7 +43,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useAuth } from '@/contexts/AuthContext';
-import type { Product } from '@/types';
+import type { Product, ProductAttribute } from '@/types';
 
 // Mock products data
 const mockProducts: Product[] = [
@@ -58,6 +58,7 @@ const mockProducts: Product[] = [
   { id: '9', name: 'Producto inactivo', price: 10.00, stock: 5, isActive: false, category: 'Otros', barcode: '0000000000000', sku: 'OTR-001', image: "" },
 ];
 
+
 const categories = ['Todos', 'Bebidas', 'Botanas', 'Panadería', 'Lácteos', 'Básicos', 'Galletas', 'Enlatados', 'Limpieza', 'Otros'];
 
 export default function Products() {
@@ -68,21 +69,62 @@ export default function Products() {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [attributes, setAttributes] = useState<ProductAttribute[]>([]);
+
 
   const filteredProducts = products.filter((product) => {
+    const query = searchQuery.toLowerCase();
+
     const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sku?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.barcode?.includes(searchQuery);
-    const matchesCategory = selectedCategory === 'Todos' || product.category === selectedCategory;
+      product.name.toLowerCase().includes(query) ||
+      product.sku?.toLowerCase().includes(query) ||
+      product.barcode?.includes(query) ||
+      product.attributes?.some(
+        (attr) =>
+          attr.name.toLowerCase().includes(query) ||
+          attr.value.toLowerCase().includes(query)
+      );
+
+    const matchesCategory =
+      selectedCategory === 'Todos' ||
+      product.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
+
 
   const stats = {
     total: products.length,
     active: products.filter((p) => p.isActive).length,
     lowStock: products.filter((p) => p.stock > 0 && p.stock < 10).length,
     outOfStock: products.filter((p) => p.stock === 0).length,
+  };
+
+  const addAttribute = () => {
+    setAttributes(prev => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        name: '',
+        value: '',
+      },
+    ]);
+  };
+
+  const updateAttribute = (
+    id: string,
+    field: 'name' | 'value',
+    value: string
+  ) => {
+    setAttributes(prev =>
+      prev.map(attr =>
+        attr.id === id ? { ...attr, [field]: value } : attr
+      )
+    );
+  };
+
+  const removeAttribute = (id: string) => {
+    setAttributes(prev => prev.filter(attr => attr.id !== id));
   };
 
   return (
@@ -100,93 +142,168 @@ export default function Products() {
               Nuevo producto
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-lg">
+
+          <DialogContent className="sm:max-w-lg w-[95vw] max-h-[90vh] flex flex-col">
+            {/* HEADER */}
             <DialogHeader>
               <DialogTitle>Crear producto</DialogTitle>
               <DialogDescription>
                 Agrega un nuevo producto a tu catálogo
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Nombre del producto</Label>
-                <Input id="name" placeholder="Ej. Coca Cola 600ml" />
-              </div>
-              <div className="grid gap-2">
-                <Label>Imagen del producto</Label>
 
-                <div className="flex items-center gap-4">
-                  <div className="w-20 h-20 rounded-lg border bg-muted flex items-center justify-center overflow-hidden">
-                    {imagePreview ? (
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <Package className="w-6 h-6 text-muted-foreground" />
-                    )}
+            {/* BODY CON SCROLL */}
+            <div className="flex-1 overflow-y-auto px-1">
+              <div className="grid gap-4 py-4">
+                {/* Nombre */}
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Nombre del producto</Label>
+                  <Input id="name" placeholder="Ej. Coca Cola 600ml" />
+                </div>
+
+                {/* Imagen */}
+                <div className="grid gap-2">
+                  <Label>Imagen del producto (opcional)</Label>
+                  <div className="flex items-center gap-4">
+                    <div className="w-20 h-20 rounded-lg border bg-muted flex items-center justify-center overflow-hidden">
+                      {imagePreview ? (
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Package className="w-6 h-6 text-muted-foreground" />
+                      )}
+                    </div>
+
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setImageFile(file);
+                        setImagePreview(URL.createObjectURL(file));
+                      }}
+                    />
                   </div>
 
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
+                  <p className="text-xs text-muted-foreground">
+                    JPG, PNG o WebP. Máx. recomendado 1MB
+                  </p>
+                </div>
 
-                      setImageFile(file);
-                      setImagePreview(URL.createObjectURL(file));
-                    }}
+                {/* Precio / Stock */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="price">Precio</Label>
+                    <Input id="price" type="number" step="0.01" placeholder="0.00" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="stock">Stock</Label>
+                    <Input id="stock" type="number" placeholder="0" />
+                  </div>
+                </div>
+
+                {/* SKU / Barcode */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="sku">SKU</Label>
+                    <Input id="sku" placeholder="Ej. BEB-001" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="barcode">Código de barras</Label>
+                    <Input id="barcode" placeholder="Escanear o escribir" />
+                  </div>
+                </div>
+
+                {/* Categoría */}
+                <div className="grid gap-2">
+                  <Label htmlFor="category">Categoría</Label>
+                  <select
+                    id="category"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    {categories.filter(c => c !== 'Todos').map(cat => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Descripción */}
+                <div className="grid gap-2">
+                  <Label htmlFor="description">Descripción</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Descripción del producto (opcional)"
+                    rows={3}
                   />
                 </div>
 
-                <p className="text-xs text-muted-foreground">
-                  JPG, PNG o WebP. Máx. recomendado 1MB
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="price">Precio</Label>
-                  <Input id="price" type="number" step="0.01" placeholder="0.00" />
+                {/* Estado */}
+                <div className="flex items-center justify-between pt-2">
+                  <Label htmlFor="active">Producto activo</Label>
+                  <Switch id="active" defaultChecked />
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="stock">Stock</Label>
-                  <Input id="stock" type="number" placeholder="0" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="sku">SKU</Label>
-                  <Input id="sku" placeholder="Ej. BEB-001" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="barcode">Código de barras</Label>
-                  <Input id="barcode" placeholder="Escanear o escribir" />
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="category">Categoría</Label>
-                <select
-                  id="category"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  {categories.filter((c) => c !== 'Todos').map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
+
+                {/* ATRIBUTOS DINÁMICOS */}
+                <div className="grid gap-3 pt-4 border-t">
+                  <div className="flex items-center justify-between">
+                    <Label>Atributos del producto</Label>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={addAttribute}
+                    >
+                      <Plus className="w-4 h-4 mr-1" />
+                      Agregar
+                    </Button>
+                  </div>
+
+                  {attributes.length === 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      Ejemplos: Tamaño, Color, Sabor, Material
+                    </p>
+                  )}
+
+                  {attributes.map(attr => (
+                    <div key={attr.id} className="flex gap-2">
+                      <Input
+                        placeholder="Nombre (ej. Tamaño)"
+                        value={attr.name}
+                        onChange={(e) =>
+                          updateAttribute(attr.id, 'name', e.target.value)
+                        }
+                      />
+                      <Input
+                        placeholder="Valor (ej. 600ml)"
+                        value={attr.value}
+                        onChange={(e) =>
+                          updateAttribute(attr.id, 'value', e.target.value)
+                        }
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeAttribute(attr.id)}
+                      >
+                        ✕
+                      </Button>
+                    </div>
                   ))}
-                </select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="description">Descripción</Label>
-                <Textarea id="description" placeholder="Descripción del producto (opcional)" />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="active">Producto activo</Label>
-                <Switch id="active" defaultChecked />
+                </div>
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
+
+            {/* FOOTER FIJO */}
+            <DialogFooter className="pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowCreateDialog(false)}
+              >
                 Cancelar
               </Button>
               <Button onClick={() => setShowCreateDialog(false)}>
