@@ -4,128 +4,133 @@
 
 @layer base {
   :root {
-    /* Professional POS Color System */
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    /* ===== TonboX Violet System ===== */
+
+    /* Backgrounds */
+    --background: 240 20% 97%; /* #F5F5F7 */
+    --foreground: 260 35% 18%; /* texto oscuro violeta */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 260 35% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 260 35% 18%;
 
-    /* Professional blue - trust, business */
-    --primary: 217 91% 50%;
+    /* 🔥 Primary (TonboX main purple) */
+    --primary: 262 57% 52%; /* #6A3FC8 */
     --primary-foreground: 0 0% 100%;
 
-    /* Soft gray for secondary elements */
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222 47% 11%;
+    /* Secondary soft lavender */
+    --secondary: 260 40% 92%;
+    --secondary-foreground: 260 35% 22%;
 
-    --muted: 214 32% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 260 30% 95%;
+    --muted-foreground: 260 15% 45%;
 
-    /* Accent - subtle blue tint */
-    --accent: 214 95% 93%;
-    --accent-foreground: 217 91% 40%;
+    /* Accent (light violet glow tone) */
+    --accent: 262 80% 85%;
+    --accent-foreground: 262 60% 40%;
 
-    /* Success - sales, confirmations */
-    --success: 142 71% 45%;
+    /* Success / Warning / Destructive (ligeramente adaptados al sistema) */
+    --success: 142 60% 40%;
     --success-foreground: 0 0% 100%;
 
-    /* Warning - subscription alerts */
-    --warning: 38 92% 50%;
+    --warning: 35 90% 55%;
     --warning-foreground: 0 0% 100%;
 
-    /* Destructive - errors, cancellations */
-    --destructive: 0 84% 60%;
+    --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 50%;
+    /* Borders / Inputs */
+    --border: 260 25% 88%;
+    --input: 260 25% 88%;
+    --ring: 262 57% 52%;
 
     --radius: 0.5rem;
 
-    /* Sidebar - subtle distinction */
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 217 91% 60%;
+    /* ===== Sidebar ===== */
+    --sidebar-background: 262 45% 20%; /* oscuro violeta */
+    --sidebar-foreground: 260 40% 90%;
+    --sidebar-primary: 262 70% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 47% 16%;
-    --sidebar-accent-foreground: 214 32% 91%;
-    --sidebar-border: 222 47% 18%;
-    --sidebar-ring: 217 91% 60%;
-    --sidebar-muted: 215 16% 47%;
+    --sidebar-accent: 262 45% 28%;
+    --sidebar-accent-foreground: 260 40% 90%;
+    --sidebar-border: 262 45% 25%;
+    --sidebar-ring: 262 70% 65%;
+    --sidebar-muted: 260 15% 65%;
 
-    /* POS specific */
+    /* ===== POS specific ===== */
     --pos-product-card: 0 0% 100%;
-    --pos-cart: 210 20% 98%;
-    --pos-total: 217 91% 50%;
+    --pos-cart: 260 30% 96%;
+    --pos-total: 262 57% 52%;
 
-    /* Status colors */
-    --status-active: 142 71% 45%;
-    --status-inactive: 0 84% 60%;
-    --status-pending: 38 92% 50%;
+    /* Status */
+    --status-active: 142 60% 40%;
+    --status-inactive: 0 75% 55%;
+    --status-pending: 35 90% 55%;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(222 47% 11% / 0.1), 0 2px 4px -2px hsl(222 47% 11% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(222 47% 11% / 0.1), 0 4px 6px -4px hsl(222 47% 11% / 0.1);
+    /* Shadows (ligeramente violetas) */
+    --shadow-sm: 0 1px 2px 0 hsl(262 40% 20% / 0.05);
+    --shadow-md:
+      0 4px 6px -1px hsl(262 40% 20% / 0.1),
+      0 2px 4px -2px hsl(262 40% 20% / 0.1);
+    --shadow-lg:
+      0 10px 15px -3px hsl(262 40% 20% / 0.1),
+      0 4px 6px -4px hsl(262 40% 20% / 0.1);
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 214 32% 91%;
+    --background: 262 40% 8%;
+    --foreground: 260 40% 92%;
 
-    --card: 222 47% 9%;
-    --card-foreground: 214 32% 91%;
+    --card: 262 40% 12%;
+    --card-foreground: 260 40% 92%;
 
-    --popover: 222 47% 9%;
-    --popover-foreground: 214 32% 91%;
+    --popover: 262 40% 12%;
+    --popover-foreground: 260 40% 92%;
 
-    --primary: 217 91% 60%;
+    --primary: 262 70% 65%; /* violeta brillante */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 47% 16%;
-    --secondary-foreground: 214 32% 91%;
+    --secondary: 262 40% 18%;
+    --secondary-foreground: 260 40% 90%;
 
-    --muted: 222 47% 14%;
-    --muted-foreground: 215 16% 57%;
+    --muted: 262 35% 16%;
+    --muted-foreground: 260 15% 65%;
 
-    --accent: 222 47% 18%;
-    --accent-foreground: 217 91% 70%;
+    --accent: 262 45% 22%;
+    --accent-foreground: 262 80% 75%;
 
-    --success: 142 71% 45%;
+    --success: 142 55% 45%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
+    --warning: 35 85% 55%;
     --warning-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 50%;
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 222 47% 18%;
-    --input: 222 47% 18%;
-    --ring: 217 91% 60%;
+    --border: 262 35% 20%;
+    --input: 262 35% 20%;
+    --ring: 262 70% 65%;
 
-    --sidebar-background: 222 47% 4%;
-    --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 217 91% 60%;
+    --sidebar-background: 262 45% 6%;
+    --sidebar-foreground: 260 40% 85%;
+    --sidebar-primary: 262 70% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 47% 10%;
-    --sidebar-accent-foreground: 214 32% 91%;
-    --sidebar-border: 222 47% 12%;
-    --sidebar-ring: 217 91% 60%;
-    --sidebar-muted: 215 16% 47%;
+    --sidebar-accent: 262 40% 14%;
+    --sidebar-accent-foreground: 260 40% 85%;
+    --sidebar-border: 262 35% 15%;
+    --sidebar-ring: 262 70% 65%;
+    --sidebar-muted: 260 15% 60%;
 
-    --pos-product-card: 222 47% 9%;
-    --pos-cart: 222 47% 7%;
-    --pos-total: 217 91% 60%;
+    --pos-product-card: 262 40% 12%;
+    --pos-cart: 262 40% 10%;
+    --pos-total: 262 70% 65%;
 
-    --status-active: 142 71% 45%;
-    --status-inactive: 0 62% 50%;
-    --status-pending: 38 92% 50%;
+    --status-active: 142 55% 45%;
+    --status-inactive: 0 65% 50%;
+    --status-pending: 35 85% 55%;
   }
 }
 
@@ -136,7 +141,9 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 
   /* Smooth scrolling */
@@ -160,6 +167,15 @@
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/50;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE y Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
   }
 }
 
@@ -217,29 +233,33 @@
   }
 
   @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes slide-in {
-    from { 
-      opacity: 0; 
-      transform: translateY(-10px); 
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
     }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @keyframes scale-in {
-    from { 
-      opacity: 0; 
-      transform: scale(0.95); 
+    from {
+      opacity: 0;
+      transform: scale(0.95);
     }
-    to { 
-      opacity: 1; 
-      transform: scale(1); 
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 

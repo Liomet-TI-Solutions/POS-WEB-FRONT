@@ -14,5 +14,6 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    base:"https://Liomet-TI-Solutions.github.io/POS-WEB-FRONT"
   },
 }));

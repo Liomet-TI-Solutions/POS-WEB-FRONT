@@ -19,26 +19,29 @@ const mockUsers: Record<UserRole, User> = {
     email: 'owner@demo.com',
     name: 'Carlos Mendoza',
     role: 'OWNER',
+    password: '1234'
   },
   ADMINISTRADOR: {
     id: '2',
     email: 'admin@demo.com',
     name: 'María García',
     role: 'ADMINISTRADOR',
+    password: '1234'
   },
   CAJERO: {
     id: '3',
     email: 'cajero@demo.com',
     name: 'Juan López',
     role: 'CAJERO',
+    password: '1234'
   },
 };
 
 const mockBusiness: Business = {
   id: '1',
   name: 'Mi Tienda S.A. de C.V.',
-  shortName: 'Mi Tienda',
-  logo: undefined,
+  shortName: 'TonBox',
+  logo: "branch/logo_NBG.png",
 };
 
 const mockSubscription: Subscription = {

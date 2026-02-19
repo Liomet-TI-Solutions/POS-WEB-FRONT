@@ -17,6 +17,7 @@ export interface User {
   name: string;
   role: UserRole;
   avatar?: string;
+  password: string;
 }
 
 // Branch interface
@@ -60,6 +61,9 @@ export interface Product {
   image?: string;
   attributes?: ProductAttribute[];
   labels?: string[];
+
+  isWeighted?: boolean;     // Indica si se vende por peso
+  pricePerKg?: number;      // Precio por kilo
 }
 
 // Product attribute for dynamic attributes
@@ -73,6 +77,7 @@ export interface ProductAttribute {
 export interface CartItem {
   product: Product;
   quantity: number;
+  isWeighted?: boolean;
 }
 
 // Sale interface
@@ -131,3 +136,6 @@ export interface AuthContextType {
   isSubscriptionActive: () => boolean;
   isBranchActive: () => boolean;
 }
+
+
+

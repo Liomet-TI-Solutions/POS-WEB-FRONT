@@ -127,9 +127,18 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
         {/* Header */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
-              <Store className="w-5 h-5 text-sidebar-primary-foreground" />
+            <div className="w-9 h-9 rounded-lg bg-sidebar-accent flex items-center justify-center overflow-hidden">
+              {business?.logo ? (
+                <img
+                  src={`/${business.logo}`}
+                  alt="Logo"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Store className="w-5 h-5 text-sidebar-primary-foreground" />
+              )}
             </div>
+
             <div className="flex flex-col">
               <span className="font-semibold text-sm text-sidebar-foreground truncate max-w-[140px]">
                 {business?.shortName || business?.name || 'POS System'}
@@ -152,7 +161,7 @@ export function AppSidebar({ isOpen, onToggle }: AppSidebarProps) {
             {filteredNavItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
-              
+
               return (
                 <li key={item.href}>
                   <Link

@@ -36,22 +36,262 @@ import { cn } from '@/lib/utils';
 
 // Mock products data
 const mockProducts: Product[] = [
-  { id: '1', name: 'Coca Cola 600ml', price: 18.00, stock: 50, isActive: true, category: 'Bebidas', barcode: '7501055300129', image: "public/products/coca-cola.jpeg" },
-  { id: '2', name: 'Pepsi 600ml', price: 17.00, stock: 45, isActive: true, category: 'Bebidas', barcode: '7501055300130', image: "public/products/pepsi.jpg" },
-  { id: '3', name: 'Sabritas Original', price: 15.50, stock: 30, isActive: true, category: 'Botanas', barcode: '7501055300131', image: "public/products/sabritas.jpg" },
-  { id: '4', name: 'Doritos Nacho', price: 18.00, stock: 25, isActive: true, category: 'Botanas', barcode: '7501055300132', image: "public/products/doritos.jpg" },
-  { id: '5', name: 'Pan Bimbo Grande', price: 52.00, stock: 20, isActive: true, category: 'Panadería', barcode: '7501055300133', image: "public/products/pan-bimbo.jpg" },
-  { id: '6', name: 'Leche Lala 1L', price: 28.00, stock: 35, isActive: true, category: 'Lácteos', barcode: '7501055300134', image: "public/products/leche-lala.jpg" },
-  { id: '7', name: 'Huevo 12 pzas', price: 45.00, stock: 40, isActive: true, category: 'Básicos', barcode: '7501055300135', image: "public/products/huevo.jpg" },
-  { id: '8', name: 'Agua Bonafont 1L', price: 14.00, stock: 60, isActive: true, category: 'Bebidas', barcode: '7501055300136', image: "public/products/agua.jpg" },
-  { id: '10', name: 'Atún en agua', price: 24.00, stock: 35, isActive: true, category: 'Enlatados', barcode: '7501055300138', image: "public/products/atun.jpg" },
-  { id: '11', name: 'Frijoles de lata', price: 18.50, stock: 40, isActive: true, category: 'Enlatados', barcode: '7501055300139', image: "public/products/frijoles.jpg" },
-  { id: '12', name: 'Arroz 1kg', price: 32.00, stock: 25, isActive: true, category: 'Básicos', barcode: '7501055300140', image: "public/products/arroz.jpg" },
-  { id: '13', name: 'Aceite 1L', price: 48.00, stock: 20, isActive: true, category: 'Básicos', barcode: '7501055300141', image: "public/products/aceite.jpg" },
-  { id: '14', name: 'Jabón Zote', price: 28.00, stock: 30, isActive: true, category: 'Limpieza', barcode: '7501055300142', image: "public/products/jabon.jpg" },
-  { id: '15', name: 'Detergente Roma', price: 35.00, stock: 22, isActive: true, category: 'Limpieza', barcode: '7501055300143', image: "public/products/detergente.jpg" },
-  { id: '16', name: 'Producto sin stock', price: 10.00, stock: 0, isActive: true, category: 'Otros', barcode: '0000000000000', image: "" },
+  {
+    id: '1',
+    name: 'Coca Cola 600ml',
+    sku: 'BEB-001',
+    price: 18.00,
+    stock: 50,
+    isActive: true,
+    category: 'Bebidas',
+    barcode: '7501055300129',
+    image: 'products/coca-cola.jpeg',
+    attributes: [
+      { id: '1-1', name: 'Marca', value: 'Coca-Cola' },
+      { id: '1-2', name: 'Contenido', value: '600ml' },
+      { id: '1-3', name: 'Tipo', value: 'Refresco' },
+      { id: '1-4', name: 'Presentación', value: 'Botella PET' },
+    ],
+  },
+  {
+    id: '2',
+    name: 'Pepsi 600ml',
+    sku: 'BEB-002',
+    price: 17.00,
+    stock: 45,
+    isActive: true,
+    category: 'Bebidas',
+    barcode: '7501055300130',
+    image: 'products/pepsi.jpg',
+    attributes: [
+      { id: '2-1', name: 'Marca', value: 'Pepsi' },
+      { id: '2-2', name: 'Contenido', value: '600ml' },
+      { id: '2-3', name: 'Tipo', value: 'Refresco' },
+    ],
+  },
+  {
+    id: '3',
+    name: 'Sabritas Original',
+    sku: 'BOT-001',
+    price: 15.50,
+    stock: 30,
+    isActive: true,
+    category: 'Botanas',
+    barcode: '7501055300131',
+    image: 'products/sabritas.jpg',
+    attributes: [
+      { id: '3-1', name: 'Marca', value: 'Sabritas' },
+      { id: '3-2', name: 'Sabor', value: 'Original' },
+      { id: '3-3', name: 'Peso', value: '45g' },
+    ],
+  },
+  {
+    id: '4',
+    name: 'Doritos Nacho',
+    sku: 'BOT-002',
+    price: 18.00,
+    stock: 25,
+    isActive: true,
+    category: 'Botanas',
+    barcode: '7501055300132',
+    image: 'products/doritos.jpg',
+    attributes: [
+      { id: '4-1', name: 'Marca', value: 'Doritos' },
+      { id: '4-2', name: 'Sabor', value: 'Nacho' },
+      { id: '4-3', name: 'Peso', value: '58g' },
+    ],
+  },
+  {
+    id: '5',
+    name: 'Pan Bimbo Grande',
+    sku: 'PAN-001',
+    price: 52.00,
+    stock: 20,
+    isActive: true,
+    category: 'Panadería',
+    barcode: '7501055300133',
+    image: 'products/pan-bimbo.jpg',
+    attributes: [
+      { id: '5-1', name: 'Marca', value: 'Bimbo' },
+      { id: '5-2', name: 'Tipo', value: 'Pan blanco' },
+      { id: '5-3', name: 'Contenido', value: '680g' },
+    ],
+  },
+  {
+    id: '6',
+    name: 'Leche Lala 1L',
+    sku: 'LAC-001',
+    price: 28.00,
+    stock: 35,
+    isActive: true,
+    category: 'Lácteos',
+    barcode: '7501055300134',
+    image: 'products/leche-lala.jpg',
+    attributes: [
+      { id: '6-1', name: 'Marca', value: 'Lala' },
+      { id: '6-2', name: 'Tipo', value: 'Leche entera' },
+      { id: '6-3', name: 'Contenido', value: '1L' },
+    ],
+  },
+  {
+    id: '7',
+    name: 'Huevo 12 pzas',
+    sku: 'BAS-001',
+    price: 45.00,
+    stock: 40,
+    isActive: true,
+    category: 'Básicos',
+    barcode: '7501055300135',
+    image: 'products/huevo.jpg',
+    attributes: [
+      { id: '7-1', name: 'Cantidad', value: '12 piezas' },
+      { id: '7-2', name: 'Tipo', value: 'Blanco' },
+      { id: '7-3', name: 'Tamaño', value: 'Mediano' },
+    ],
+  },
+  {
+    id: '8',
+    name: 'Agua Bonafont 1L',
+    sku: 'BEB-003',
+    price: 14.00,
+    stock: 60,
+    isActive: true,
+    category: 'Bebidas',
+    barcode: '7501055300136',
+    image: 'products/agua.jpg',
+    attributes: [
+      { id: '8-1', name: 'Marca', value: 'Bonafont' },
+      { id: '8-2', name: 'Contenido', value: '1L' },
+      { id: '8-3', name: 'Tipo', value: 'Agua natural' },
+    ],
+  },
+  {
+    id: '10',
+    name: 'Atún en agua',
+    sku: 'ENL-001',
+    price: 24.00,
+    stock: 35,
+    isActive: true,
+    category: 'Enlatados',
+    barcode: '7501055300138',
+    image: 'products/atun.jpg',
+    attributes: [
+      { id: '10-1', name: 'Marca', value: 'Dolores' },
+      { id: '10-2', name: 'Tipo', value: 'En agua' },
+      { id: '10-3', name: 'Contenido', value: '140g' },
+    ],
+  },
+  {
+    id: '11',
+    name: 'Frijoles de lata',
+    sku: 'ENL-002',
+    price: 18.50,
+    stock: 40,
+    isActive: true,
+    category: 'Enlatados',
+    barcode: '7501055300139',
+    image: 'products/frijoles.jpg',
+    attributes: [
+      { id: '11-1', name: 'Tipo', value: 'Bayos' },
+      { id: '11-2', name: 'Presentación', value: 'Lata' },
+      { id: '11-3', name: 'Contenido', value: '430g' },
+    ],
+  },
+  {
+    id: '12',
+    name: 'Arroz 1kg',
+    sku: 'BAS-002',
+    price: 32.00,
+    stock: 25,
+    isActive: true,
+    category: 'Básicos',
+    barcode: '7501055300140',
+    image: 'products/arroz.jpg',
+    attributes: [
+      { id: '12-1', name: 'Tipo', value: 'Grano largo' },
+      { id: '12-2', name: 'Contenido', value: '1kg' },
+    ],
+  },
+  {
+    id: '13',
+    name: 'Aceite 1L',
+    sku: 'BAS-003',
+    price: 48.00,
+    stock: 20,
+    isActive: true,
+    category: 'Básicos',
+    barcode: '7501055300141',
+    image: 'products/aceite.jpg',
+    attributes: [
+      { id: '13-1', name: 'Tipo', value: 'Vegetal' },
+      { id: '13-2', name: 'Contenido', value: '1L' },
+    ],
+  },
+  {
+    id: '14',
+    name: 'Jabón Zote',
+    sku: 'LIM-001',
+    price: 28.00,
+    stock: 30,
+    isActive: true,
+    category: 'Limpieza',
+    barcode: '7501055300142',
+    image: 'products/jabon.jpg',
+    attributes: [
+      { id: '14-1', name: 'Marca', value: 'Zote' },
+      { id: '14-2', name: 'Uso', value: 'Ropa' },
+      { id: '14-3', name: 'Peso', value: '400g' },
+    ],
+  },
+  {
+    id: '15',
+    name: 'Detergente Roma',
+    sku: 'LIM-002',
+    price: 35.00,
+    stock: 22,
+    isActive: true,
+    category: 'Limpieza',
+    barcode: '7501055300143',
+    image: 'products/detergente.jpg',
+    attributes: [
+      { id: '15-1', name: 'Marca', value: 'Roma' },
+      { id: '15-2', name: 'Presentación', value: 'Polvo' },
+      { id: '15-3', name: 'Peso', value: '1kg' },
+    ],
+  },
+  {
+    id: '16',
+    name: 'Producto sin stock',
+    sku: 'OTR-001',
+    price: 10.00,
+    stock: 0,
+    isActive: true,
+    category: 'Otros',
+    barcode: '0000000000000',
+    image: '',
+    attributes: [{ id: '16-1', name: 'Estado', value: 'Sin stock' }],
+  },
+  {
+    id: '17',
+    name: 'Manzana Roja',
+    sku: 'BAS-004',
+    price: 0,
+    stock: 100,
+    isActive: true,
+    category: 'Básicos',
+    barcode: '7500000000001',
+    image: 'products/manzana.jpg',
+    isWeighted: true,
+    pricePerKg: 38.00,
+    attributes: [
+      { id: '17-1', name: 'Tipo', value: 'Red Delicious' },
+      { id: '17-2', name: 'Origen', value: 'Chihuahua' },
+      { id: '17-3', name: 'Venta', value: 'Por kilo' },
+    ],
+  },
 ];
+
+
 
 const categories = ['Todos', 'Bebidas', 'Botanas', 'Panadería', 'Lácteos', 'Básicos', 'Galletas', 'Enlatados', 'Limpieza'];
 
@@ -67,14 +307,112 @@ export default function POS() {
   const [barcodeInput, setBarcodeInput] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [discount, setDiscount] = useState(0);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [cashReceived, setCashReceived] = useState('');
   const barcodeInputRef = useRef<HTMLInputElement>(null);
+  const [weightProduct, setWeightProduct] = useState<Product | null>(null);
+  const [enteredWeight, setEnteredWeight] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [showDiscountDialog, setShowDiscountDialog] = useState(false);
+  const [discountPassword, setDiscountPassword] = useState('');
+
 
   const canApplyDiscount = hasPermission(['OWNER', 'ADMINISTRADOR']);
+
+  const printReceipt = () => {
+    const now = new Date().toLocaleString();
+
+    const receiptHTML = `
+    <html>
+      <head>
+        <title>Ticket</title>
+        <style>
+          body {
+            font-family: monospace;
+            width: 300px;
+            padding: 10px;
+          }
+          .center { text-align: center; }
+          .line { border-top: 1px dashed #000; margin: 6px 0; }
+          .row { display: flex; justify-content: space-between; }
+          .bold { font-weight: bold; }
+        </style>
+      </head>
+      <body>
+        <div class="center bold">TIENDA LÓPEZ</div>
+        <div class="center">Sucursal: ${activeBranch?.name ?? 'Principal'}</div>
+        <div class="center">Fecha: ${now}</div>
+        <div class="center">Cajero: ${user?.name ?? 'N/A'}</div>
+
+        <div class="line"></div>
+
+        ${cart.map(item => `
+          <div class="row">
+            <span>${item.quantity} x ${item.product.name}</span>
+            <span>$${(
+        item.isWeighted && item.product.pricePerKg
+          ? item.product.pricePerKg * item.quantity
+          : item.product.price * item.quantity
+      ).toFixed(2)}</span>
+          </div>
+        `).join('')}
+
+        <div class="line"></div>
+
+        <div class="row">
+          <span>Subtotal:</span>
+          <span>$${subtotal.toFixed(2)}</span>
+        </div>
+
+        ${discount > 0 ? `
+        <div class="row">
+          <span>Descuento (${discount}%):</span>
+          <span>-$${discountAmount.toFixed(2)}</span>
+        </div>
+        ` : ''}
+
+        <div class="line"></div>
+
+        <div class="row bold">
+          <span>TOTAL:</span>
+          <span>$${total.toFixed(2)}</span>
+        </div>
+
+        <div class="row">
+          <span>Método:</span>
+          <span>${selectedPayment}</span>
+        </div>
+
+        ${selectedPayment === 'cash' ? `
+        <div class="row">
+          <span>Recibido:</span>
+          <span>$${parseFloat(cashReceived || '0').toFixed(2)}</span>
+        </div>
+        <div class="row">
+          <span>Cambio:</span>
+          <span>$${change.toFixed(2)}</span>
+        </div>
+        ` : ''}
+
+        <div class="line"></div>
+        <div class="center">¡Gracias por su compra!</div>
+
+        <script>
+          window.print();
+          window.close();
+        </script>
+      </body>
+    </html>
+  `;
+
+    const win = window.open('', '', 'width=400,height=600');
+    if (win) {
+      win.document.write(receiptHTML);
+      win.document.close();
+    }
+  };
 
   // Filter products
   const filteredProducts = mockProducts.filter((product) => {
@@ -85,14 +423,27 @@ export default function POS() {
   });
 
   // Cart calculations
-  const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => {
+    if (item.isWeighted && item.product.pricePerKg) {
+      return sum + item.product.pricePerKg * item.quantity;
+    }
+    return sum + item.product.price * item.quantity;
+  }, 0);
   const discountAmount = subtotal * (discount / 100);
   const total = subtotal - discountAmount;
+
 
   // Add to cart
   const addToCart = (product: Product) => {
     if (product.stock <= 0) return;
 
+    // 👇 SI ES PRODUCTO POR KILO
+    if (product.isWeighted) {
+      setWeightProduct(product);
+      return;
+    }
+
+    // 👇 PRODUCTO NORMAL
     setCart((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -106,6 +457,7 @@ export default function POS() {
       return [...prev, { product, quantity: 1 }];
     });
   };
+
 
   // Update quantity
   const updateQuantity = (productId: string, delta: number) => {
@@ -154,7 +506,6 @@ export default function POS() {
     setPaymentStatus('processing');
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Simulate success (90% chance) or error (10% chance)
     if (Math.random() > 0.1) {
@@ -173,10 +524,75 @@ export default function POS() {
     setCashReceived('');
   };
 
+  const confirmWeight = () => {
+    if (!weightProduct) return;
+
+    const weight = parseFloat(enteredWeight);
+    if (!weight || weight <= 0) return;
+
+    if (weight > weightProduct.stock) return;
+
+    setCart((prev) => [
+      ...prev,
+      {
+        product: weightProduct,
+        quantity: weight,
+        isWeighted: true,
+      },
+    ]);
+
+    setWeightProduct(null);
+    setEnteredWeight('');
+  };
+
   // Calculate change for cash payments
   const change = selectedPayment === 'cash' && cashReceived
     ? parseFloat(cashReceived) - total
     : 0;
+  function DiscountForm({
+    onConfirm,
+  }: {
+    onConfirm: (percentage: string, password: string) => void;
+  }) {
+    const [percentage, setPercentage] = useState('10');
+    const [password, setPassword] = useState('');
+
+    return (
+      <div className="space-y-4 py-4">
+        <div>
+          <label className="text-sm font-medium">
+            Porcentaje de descuento (%)
+          </label>
+          <Input
+            type="number"
+            min={1}
+            max={100}
+            value={percentage}
+            onChange={(e) => setPercentage(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-medium">
+            Confirmar contraseña
+          </label>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <Button
+          className="w-full"
+          onClick={() => onConfirm(percentage, password)}
+          disabled={!password}
+        >
+          Confirmar descuento
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col lg:flex-row gap-4 p-4">
@@ -277,7 +693,12 @@ export default function POS() {
                     </div>
                     <p className="font-medium text-sm truncate mb-1">{product.name}</p>
                     <p className="text-xs text-muted-foreground mb-2">{product.category}</p>
-                    <p className="text-lg font-bold text-primary">${product.price.toFixed(2)}</p>
+                    <p className="text-lg font-bold text-primary">
+                      {product.isWeighted
+                        ? `$${product.pricePerKg?.toFixed(2)} / kg`
+                        : `$${product.price.toFixed(2)}`
+                      }
+                    </p>
                   </div>
                 </button>
               );
@@ -329,32 +750,46 @@ export default function POS() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm truncate">{item.product.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      ${item.product.price.toFixed(2)} c/u
+                      {item.product.isWeighted && item.product.pricePerKg
+                        ? `$${item.product.pricePerKg.toFixed(2)} x ${item.quantity.toFixed(2)} kg`
+                        : `$${item.product.price.toFixed(2)} c/u`
+                      }
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon-sm"
-                      onClick={() => updateQuantity(item.product.id, -1)}
-                    >
-                      <Minus className="w-3 h-3" />
-                    </Button>
-                    <span className="w-8 text-center font-medium">{item.quantity}</span>
-                    <Button
-                      variant="outline"
-                      size="icon-sm"
-                      onClick={() => updateQuantity(item.product.id, 1)}
-                      disabled={item.quantity >= item.product.stock}
-                    >
-                      <Plus className="w-3 h-3" />
-                    </Button>
-                  </div>
+                  {!item.product.isWeighted ? (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon-sm"
+                        onClick={() => updateQuantity(item.product.id, -1)}
+                      >
+                        <Minus className="w-3 h-3" />
+                      </Button>
+                      <span className="w-8 text-center font-medium">
+                        {item.quantity}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon-sm"
+                        onClick={() => updateQuantity(item.product.id, 1)}
+                        disabled={item.quantity >= item.product.stock}
+                      >
+                        <Plus className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="w-16 text-center text-sm font-medium">
+                      {item.quantity.toFixed(2)} kg
+                    </div>
+                  )}
 
                   <div className="text-right min-w-[60px]">
                     <p className="font-semibold">
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                      {item.isWeighted && item.product.pricePerKg
+                        ? `$${(item.product.pricePerKg * item.quantity).toFixed(2)}`
+                        : `$${(item.product.price * item.quantity).toFixed(2)}`
+                      }
                     </p>
                   </div>
 
@@ -373,24 +808,14 @@ export default function POS() {
 
           {/* Discount (only for OWNER and ADMIN) */}
           {canApplyDiscount && cart.length > 0 && (
-            <div className="flex items-center gap-3 py-3 border-t">
-              <span className="text-sm text-muted-foreground">Descuento:</span>
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={discount}
-                  onChange={(e) => setDiscount(Math.min(100, Math.max(0, parseInt(e.target.value) || 0)))}
-                  className="w-20 h-8 text-center"
-                />
-                <span className="text-sm">%</span>
-              </div>
-              {discount > 0 && (
-                <span className="text-sm text-status-active">
-                  -${discountAmount.toFixed(2)}
-                </span>
-              )}
+            <div className="pt-3 border-t">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowDiscountDialog(true)}
+              >
+                Aplicar descuento
+              </Button>
             </div>
           )}
 
@@ -514,7 +939,11 @@ export default function POS() {
                 <p className="text-muted-foreground">Ticket #001235</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={printReceipt}
+                >
                   <Receipt className="w-4 h-4 mr-1" />
                   Imprimir ticket
                 </Button>
@@ -554,6 +983,74 @@ export default function POS() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+      <Dialog open={!!weightProduct} onOpenChange={() => setWeightProduct(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Ingresar peso</DialogTitle>
+            <DialogDescription>
+              {weightProduct?.name}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <Input
+              type="number"
+              step="0.01"
+              placeholder="Peso en kg"
+              value={enteredWeight}
+              onChange={(e) => setEnteredWeight(e.target.value)}
+              className="text-center text-lg font-bold"
+            />
+
+            {weightProduct?.pricePerKg && enteredWeight && (
+              <p className="text-center text-lg font-bold text-primary">
+                Total: $
+                {(weightProduct.pricePerKg * parseFloat(enteredWeight || '0')).toFixed(2)}
+              </p>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setWeightProduct(null)}>
+              Cancelar
+            </Button>
+            <Button onClick={confirmWeight}>
+              Agregar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showDiscountDialog} onOpenChange={setShowDiscountDialog}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Autorizar descuento</DialogTitle>
+            <DialogDescription>
+              Ingresa el porcentaje y confirma tu contraseña
+            </DialogDescription>
+          </DialogHeader>
+
+          <DiscountForm
+            onConfirm={(percentage, password) => {
+              // 🔐 VALIDACIÓN SIMULADA FRONT
+              if (password !== user?.password) {
+                alert('Contraseña incorrecta');
+                return;
+              }
+
+              const numericPercentage = parseFloat(percentage);
+              if (!numericPercentage || numericPercentage <= 0 || numericPercentage > 100) {
+                alert('Porcentaje inválido');
+                return;
+              }
+
+              setDiscount(numericPercentage);
+              setShowDiscountDialog(false);
+              setDiscountPassword('');
+            }}
+          />
         </DialogContent>
       </Dialog>
     </div>

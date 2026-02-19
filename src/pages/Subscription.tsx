@@ -16,23 +16,23 @@ const plans = [
   {
     id: 'basic',
     name: 'Básico',
-    price: 299,
-    features: ['1 sucursal', '2 usuarios', 'Soporte por email'],
+    price: 599,
+    features: ['Sucursales: 1 (fijo)', 'Usuarios simultáneos: Hasta 2','Límite de productos: 2,000', 'Soporte: Correo (24h)'],
     current: false,
   },
   {
     id: 'professional',
     name: 'Profesional',
-    price: 599,
-    features: ['5 sucursales', '10 usuarios', 'Soporte prioritario', 'Reportes avanzados'],
+    price: 1200,
+    features: ['Sucursales: Hasta 3', 'Usuarios simultáneos: Hasta 10', 'Límite de productos: 5,600', 'Soporte: Correo prioritario'],
     current: true,
     recommended: true,
   },
   {
     id: 'enterprise',
-    name: 'Empresarial',
-    price: 999,
-    features: ['Sucursales ilimitadas', 'Usuarios ilimitados', 'Soporte 24/7', 'API access'],
+    name: 'Business',
+    price: 2100,
+    features: ['Sucursales: Hasta 10', 'Usuarios simultáneos: Hasta 25', 'Límite de productos: 20,000', 'Soporte: Correo prioritario'],
     current: false,
   },
 ];
@@ -98,9 +98,9 @@ export default function Subscription() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-muted-foreground">Sucursales</span>
-              <span className="text-sm font-bold">3 / 5</span>
+              <span className="text-sm font-bold">3 / 3</span>
             </div>
-            <Progress value={60} className="h-2" />
+            <Progress value={100} className="h-2" />
           </CardContent>
         </Card>
         <Card>
@@ -115,8 +115,8 @@ export default function Subscription() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-medium text-muted-foreground">Transacciones</span>
-              <span className="text-sm font-bold">1,234 / 5,000</span>
+              <span className="text-sm font-medium text-muted-foreground">Productos</span>
+              <span className="text-sm font-bold">1,234 / 5,600</span>
             </div>
             <Progress value={25} className="h-2" />
           </CardContent>
