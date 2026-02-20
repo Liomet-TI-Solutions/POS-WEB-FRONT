@@ -6,7 +6,6 @@ import {
   MoreVertical,
   Edit,
   Trash2,
-  Power,
   CheckCircle2,
   XCircle,
 } from 'lucide-react';
@@ -33,6 +32,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from "../hooks/use-toast";
 import type { Branch } from '@/types';
 
 // Mock branches data
@@ -45,9 +45,22 @@ const mockBranches: Branch[] = [
 
 export default function Branches() {
   const { hasPermission } = useAuth();
-  const [branches] = useState<Branch[]>(mockBranches);
+  const [branches, setBranches] = useState<Branch[]>(mockBranches);
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+
+  // Dialog / form state (reutilizado para crear y editar)
+  const [mode, setMode] = useState<'create' | 'edit'>('create');
+  const [editingBranchId, setEditingBranchId] = useState<string | null>(null);
+  const [branchName, setBranchName] = useState('');
+  const [branchAddress, setBranchAddress] = useState('');
+  const [branchActive, setBranchActive] = useState(true);
+
+  // Delete confirmation modal
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [branchToDelete, setBranchToDelete] = useState<Branch | null>(null);
+
+  const { toast } = useToast();
 
   const canManageBranches = hasPermission(['OWNER']);
 
@@ -61,6 +74,116 @@ export default function Branches() {
     active: branches.filter((b) => b.isActive).length,
     inactive: branches.filter((b) => !b.isActive).length,
   };
+
+  // Abrir diálogo en modo crear
+  function openCreateBranch() {
+    setMode('create');
+    setEditingBranchId(null);
+    setBranchName('');
+    setBranchAddress('');
+    setBranchActive(true);
+    setShowCreateDialog(true);
+  }
+
+  // Abrir diálogo en modo editar y precargar datos
+  function openEditBranch(branch: Branch) {
+    setMode('edit');
+    setEditingBranchId(branch.id);
+    setBranchName(branch.name);
+    setBranchAddress(branch.address);
+    setBranchActive(branch.isActive);
+    setShowCreateDialog(true);
+  }
+
+  // Guardar (crear o actualizar) con toast
+  function handleSaveBranch() {
+    if (!branchName.trim()) {
+      toast({ title: 'Nombre requerido', description: 'Ingresa el nombre de la sucursal.' });
+      return;
+    }
+
+    // toast inicial (progreso)
+    const t = toast({
+      title: mode === 'create' ? 'Creando sucursal' : 'Actualizando sucursal',
+      description: mode === 'create' ? 'Creando...' : 'Guardando cambios...',
+    });
+
+    try {
+      if (mode === 'create') {
+        const newBranch: Branch = {
+          id: Date.now().toString(),
+          name: branchName.trim(),
+          address: branchAddress.trim(),
+          isActive: branchActive,
+          businessId: '1',
+        };
+        setBranches((prev) => [...prev, newBranch]);
+
+        // actualizar toast a éxito (si tu toast.update acepta Partial)
+        if (t.update) {
+          t.update({
+            title: 'Sucursal creada',
+            description: `${newBranch.name} se creó correctamente.`,
+          } as any);
+        } else {
+          toast({ title: 'Sucursal creada', description: `${newBranch.name} se creó correctamente.` });
+        }
+      } else if (mode === 'edit' && editingBranchId) {
+        setBranches((prev) =>
+          prev.map((b) =>
+            b.id === editingBranchId
+              ? { ...b, name: branchName.trim(), address: branchAddress.trim(), isActive: branchActive }
+              : b
+          )
+        );
+
+        if (t.update) {
+          t.update({
+            title: 'Cambios guardados',
+            description: `${branchName} se actualizó correctamente.`,
+          } as any);
+        } else {
+          toast({ title: 'Cambios guardados', description: `${branchName} se actualizó correctamente.` });
+        }
+      }
+
+      setShowCreateDialog(false);
+      setEditingBranchId(null);
+    } catch (err) {
+      if (t.update) {
+        t.update({
+          title: 'Error',
+          description: 'No se pudo guardar la sucursal. Intenta de nuevo.',
+        } as any);
+      } else {
+        toast({ title: 'Error', description: 'No se pudo guardar la sucursal. Intenta de nuevo.' });
+      }
+    }
+  }
+
+  // Abrir modal de confirmación para eliminar
+  function openDeleteBranch(branch: Branch) {
+    setBranchToDelete(branch);
+    setShowDeleteDialog(true);
+  }
+
+  // Confirmar eliminación con toast y posibilidad de deshacer simple
+  function handleConfirmDelete() {
+    if (!branchToDelete) return;
+
+    // guardar copia para posible deshacer
+    const deleted = branchToDelete;
+    setBranches((prev) => prev.filter((b) => b.id !== deleted.id));
+    setShowDeleteDialog(false);
+    setBranchToDelete(null);
+
+    // toast con acción de deshacer si tu toast soporta action, aquí ejemplo simple
+    toast({
+      title: 'Sucursal eliminada',
+      description: `${deleted.name} fue eliminada.`,
+    });
+
+  }
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
@@ -77,38 +200,40 @@ export default function Branches() {
         {canManageBranches && (
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>
-              <Button>
+              <Button onClick={openCreateBranch}>
                 <Plus className="w-4 h-4 mr-2" />
                 Nueva sucursal
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Crear sucursal</DialogTitle>
+                <DialogTitle>{mode === 'create' ? 'Crear sucursal' : 'Editar sucursal'}</DialogTitle>
                 <DialogDescription>
-                  Agrega una nueva sucursal a tu negocio
+                  {mode === 'create' ? 'Agrega una nueva sucursal a tu negocio' : 'Modifica los datos de la sucursal'}
                 </DialogDescription>
               </DialogHeader>
+
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Nombre de la sucursal</Label>
-                  <Input id="name" placeholder="Ej. Sucursal Centro" />
+                  <Input id="name" value={branchName} onChange={(e) => setBranchName(e.target.value)} placeholder="Ej. Sucursal Centro" />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="address">Dirección</Label>
-                  <Input id="address" placeholder="Dirección completa" />
+                  <Input id="address" value={branchAddress} onChange={(e) => setBranchAddress(e.target.value)} placeholder="Dirección completa" />
                 </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="active">Sucursal activa</Label>
-                  <Switch id="active" defaultChecked />
+                  <Switch id="active" checked={branchActive} onCheckedChange={(val) => setBranchActive(Boolean(val))} />
                 </div>
               </div>
+
               <DialogFooter>
-                <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
+                <Button variant="outline" onClick={() => { setShowCreateDialog(false); setEditingBranchId(null); }}>
                   Cancelar
                 </Button>
-                <Button onClick={() => setShowCreateDialog(false)}>
-                  Crear sucursal
+                <Button onClick={handleSaveBranch}>
+                  {mode === 'create' ? 'Crear sucursal' : 'Guardar cambios'}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -199,16 +324,12 @@ export default function Branches() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => openEditBranch(branch)}>
                         <Edit className="w-4 h-4 mr-2" />
                         Editar
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Power className="w-4 h-4 mr-2" />
-                        {branch.isActive ? 'Desactivar' : 'Activar'}
-                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-destructive">
+                      <DropdownMenuItem className="text-destructive" onClick={() => openDeleteBranch(branch)}>
                         <Trash2 className="w-4 h-4 mr-2" />
                         Eliminar
                       </DropdownMenuItem>
@@ -221,6 +342,27 @@ export default function Branches() {
           </Card>
         ))}
       </div>
+
+      {/* Modal de confirmación de eliminación */}
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar eliminación</DialogTitle>
+            <DialogDescription>
+              ¿Estás seguro de que deseas eliminar {branchToDelete?.name ?? 'esta sucursal'}? <br/>Esta acción no se puede deshacer.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setShowDeleteDialog(false); setBranchToDelete(null); }}>
+              Cancelar
+            </Button>
+            <Button className="ml-2" onClick={handleConfirmDelete} variant="destructive">
+              Eliminar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {filteredBranches.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">

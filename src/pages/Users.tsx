@@ -397,7 +397,7 @@ export default function Users() {
               <DialogTitle>Confirmar eliminación</DialogTitle>
               <DialogDescription>
                 ¿Estás seguro de que deseas eliminar{" "}
-                {userToDelete?.name ?? "este usuario"}? Esta acción no se puede
+                {userToDelete?.name ?? "este usuario"}? <br/> Esta acción no se puede
                 deshacer.
               </DialogDescription>
             </DialogHeader>
